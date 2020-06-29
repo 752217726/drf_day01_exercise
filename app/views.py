@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import MultiPartParser
+from rest_framework.renderers import BrowsableAPIRenderer, JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -117,6 +119,9 @@ class UserView(View):
 
 #开发基于drf的视图
 class UserAPIView(APIView):
+    # 为某个视图局部添加渲染器
+    # 局部优先于全局
+    renderer_classes = (JSONRenderer,)
     def get(self,request,*args,**kwargs):
         # 可以通过_request 访问Django原生的request对象
         print(request._request.GET)
@@ -132,3 +137,12 @@ class UserAPIView(APIView):
         # 可以获取多种格式的参数 DRF 扩展的请回去参数  兼容性最强
         print(request.data)
         return Response("drf post success")
+
+class StudentAPIView(APIView):
+    # 局部使用解析器
+    # parser_classes = [MultiPartParser]  #只能通过表单解析器
+    def post(self,request,*args,**kwargs):
+        print("post方法")
+        print(request.POST)
+        print(request.data)
+        return Response("POST 访问成功")

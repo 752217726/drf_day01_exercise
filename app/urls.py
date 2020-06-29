@@ -8,6 +8,6 @@ urlpatterns=[
     path("users/",views.UserView.as_view()),
     # 匹配携带参数的路由
     path("users/<str:pk>/",views.UserView.as_view()),
-    path("users/<str:pk>/username/",views.UserView.as_view()),
     path("api_user/",views.UserAPIView.as_view()),
+    path("stu/",views.StudentAPIView.as_view()),
 ]
